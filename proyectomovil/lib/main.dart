@@ -1,4 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,19 +8,28 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Alarma App',
-      home: MyHomePage(),
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        hintColor: Colors.teal,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white, backgroundColor: Colors.teal,
+          ),
+        ),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -35,24 +46,30 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _scheduleNotification() async {
+    // Implement the logic to schedule notifications
+    // This is where you'll add the code to handle notifications
+    // For now, let's print the scheduled time
+    print('Scheduled time: $selectedTime');
   }
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = (await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(selectedTime),
-    ))!;
+    );
 
-    setState(() {
-      selectedTime = DateTime(
-        selectedTime.year,
-        selectedTime.month,
-        selectedTime.day,
-        picked.hour,
-        picked.minute,
-      );
-    });
+    if (picked != null && picked != TimeOfDay.now()) {
+      setState(() {
+        selectedTime = DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          picked.hour,
+          picked.minute,
+        );
+      });
     }
+  }
 
   @override
   Widget build(BuildContext context) {
