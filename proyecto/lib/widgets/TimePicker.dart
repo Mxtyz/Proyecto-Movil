@@ -3,9 +3,13 @@
 import 'package:flutter/material.dart';
 
 class TimePicker extends StatelessWidget {
+  // La hora actual seleccionada
   final DateTime selectedTime;
+
+  // Función que se llama cuando se selecciona una nueva hora
   final Function(DateTime) onTimeSelected;
 
+  // Constructor que requiere la hora actual y la función de selección de hora
   const TimePicker({
     Key? key,
     required this.selectedTime,
@@ -16,12 +20,15 @@ class TimePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        // Muestra el selector de tiempo y espera a que el usuario seleccione una hora
         final TimeOfDay? picked = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.fromDateTime(selectedTime),
         );
 
+        // Verifica si se seleccionó una hora y no es la hora actual
         if (picked != null && picked != TimeOfDay.now()) {
+          // Crea un nuevo objeto DateTime con la nueva hora seleccionada
           final newTime = DateTime(
             selectedTime.year,
             selectedTime.month,
@@ -29,6 +36,8 @@ class TimePicker extends StatelessWidget {
             picked.hour,
             picked.minute,
           );
+
+          // Llama a la función de devolución de llamada con la nueva hora seleccionada
           onTimeSelected(newTime);
         }
       },

@@ -3,6 +3,7 @@ import 'package:proyecto/data/NotificationScheduler.dart';
 import 'pages/AlarmApp.dart';
 
 void main() async {
+  // Inicia el sistema de notificaciones locales
   await NotificationScheduler.initialize();
   runApp(const MyApp());
 }
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      // La pantalla principal de la aplicación es AlarmApp
       home: const AlarmApp(),
     );
   }
